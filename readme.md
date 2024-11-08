@@ -1,51 +1,55 @@
-# Open Source Ecosystem on VPS
+# Ecosystem
 
 ## Overview
+
 This document outlines our plan to host an ecosystem of open-source applications on a VPS machine. Our aim is to create a cohesive and flexible environment that enables team collaboration, project management, and productivity using a range of open-source software.
+A complete solution for self-hosting various open-source applications with minimal setup time. Deploy your own suite of productivity tools with just a few commands.
 
-## Domain Setup
-Each service will be accessible via subdomains of `demo.in`. Below are the planned services and their respective URLs.
+## 🚀 Quick Start
 
-
-## Hosted Services
-
-### 1. **Mail** - Mailcow
-   - Purpose: Web mail solution for managing emails.
-   - Access: [mail.demo.in](http://mail.demo.in)
-
-### 2. **Messaging** - Signal and Mattermost
-   - Purpose: Communication and team messaging platforms.
-   - Access: [mattermost.demo.in](http://mattermost.demo.in) (Web) and mobile downloads for iOS/Android.
-
-### 3. **Product Management** - Plane
-   - Purpose: Project and task management.
-   - Access: [plane.demo.in](http://plane.demo.in)
-
-### 4. **Scheduling** - Cal.com
-   - Purpose: Appointment scheduling.
-   - Access: [cal.demo.in](http://cal.demo.in)
-
-## Infrastructure & Technology Stack
-
-To manage and deploy these services efficiently, we plan to use the following tools and technologies:
-
-- **Docker**: Containerization of all applications.
-- **Coolify**: An open-source Heroku alternative for managing Docker applications.
-- **Traefik**: A reverse proxy and load balancer, especially useful for handling traffic across multiple services and ensuring SSL.
-
-We may also integrate additional technologies as needed to enhance the stability, scalability, and security of our ecosystem.
-
-## Additional Notes
-
-- **SSL**: Traefik will handle SSL certificates for secure access to all services.
-- **Scalability**: Services will be containerized to simplify scaling and updates.
-- **Monitoring & Backups**: Routine monitoring and backups will be set up to ensure data security and minimize downtime.
-
-## Future Enhancements
-
-- Adding more collaborative tools as required.
-- Improving load balancing and scaling configurations as team activity grows.
-
----
+```bash
+git clone https://github.com/alexanderritik/Ecosystem.git
+cd Ecosystem
+./setup.sh
+```
 
 This ecosystem will provide an integrated workspace with everything from messaging to project management, secure document storage, and scheduling, enabling our team to work seamlessly and productively.
+
+
+## 🛠 Available Services
+- **Nextcloud**: File Storage
+- **Keycloak**: Authentication
+- ... more to be added
+
+## 📋 Requirements
+
+- Docker & Docker Compose
+- Domain name with DNS access
+- VPS with minimum specifications:
+  - 4GB RAM
+  - 2 CPU cores
+  - 50GB storage
+
+## 🔧 Installation
+
+1. Clone the repository
+2. Copy `.env.example` to `.env`
+3. Run `./setup.sh`
+4. Follow the interactive prompts
+
+## 📚 Documentation
+
+Detailed documentation is available in the [docs](./docs) directory:
+- [Installation Guide](./docs/installation.md)
+- [Configuration Guide](./docs/configuration.md)
+- [Backup & Restore](./docs/backup-restore.md)
+- [Updating Services](./docs/updating.md)
+- [Troubleshooting](./docs/troubleshooting.md)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
