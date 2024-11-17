@@ -1,0 +1,73 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_MULTIPLE_DATABASES: keycloak,nextcloud
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - keycloak_network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    command: start
+    environment:
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT_BACKCHANNEL: false
+      KC_HTTP_ENABLED: true
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres/keycloak
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: postgres
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - postgres
+    networks:
+      - keycloak_network
+
+  nextcloud:
+    image: nextcloud:apache
+    container_name: nextcloud
+    restart: unless-stopped
+    networks:
+      - keycloak_network
+    depends_on:
+      - postgres 
+    ports:
+      - 8081:80
+    volumes: 
+      - ./html:/var/www/html # Map the /var/www/html directory in the container to the html folder in the same folder as the docker-compose.yml
+      - ./custom_apps:/var/www/html/custom_apps # These volumes allow us to easily interact with the files in the container
+      - ./config:/var/www/html/config
+      - ./data:/var/www/html/data
+    environment:
+      - PUID=1000 # The user ids. Most likely both should be 1000. Incorrectly setting these will led to file permission issues
+      - PGID=1000 # Set these to whatever your user is.
+      - MYSQL_DATABASE=nextcloud # This is the database information we will set up in the next section
+      - MYSQL_USER=postgres
+      - MYSQL_PASSWORD=postgres
+      - MYSQL_HOST=postgres
+      
+ 
+
+volumes:
+  postgres_data:
+    driver: local
+  nextcloud_data:
+    driver: local
+
+networks:
+  keycloak_network:
+    driver: bridge
